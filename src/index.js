@@ -54,10 +54,24 @@ const toyCollection = document.getElementById('toy-collection');
   });
 
   toyCollection.addEventListener('click', (e)=> {
-    console.log(e.target)
+    if (e.target.className === "like-btn"){
+      let currentLikes = parseInt(e.target.previousElementSibling.innerText) 
+      let newLikes = currentLikes + 1 
+      e.target.previousElementSibling.innerText = newLikes + " Likes"
+
+      fetch(`http://localhost:3000/toys/${e.target.dataset.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          likes: newLikes
+        })
+      })
+    }
   })
 
-    
 
   addBtn.addEventListener("click", () => {
     // hide & seek with the form
